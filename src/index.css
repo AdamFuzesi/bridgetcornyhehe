@@ -1,0 +1,284 @@
+/* RESET DEFAULT MARGINS */
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+/* CONTAINER: fill viewport & center content */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #fae1dd;
+  position: relative; /* so the .shadow can be absolutely positioned */
+  margin-bottom: 10px;
+}
+
+/* "VALENTINES" WRAPPER: bigger bobbing envelope */
+.valentines {
+  position: relative;
+  top: 300px; /* doubled from 50px */
+  cursor: pointer;
+  animation: up 3s linear infinite;
+}
+
+@keyframes up {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-60px); /* bob a bit more with bigger scale */
+  }
+}
+
+/* ENVELOPE BASE: doubled from 300x200 -> 600x400 */
+.envelope {
+  position: relative;
+  width: 600px;
+  height: 400px;
+  background-color: #f08080;
+}
+
+/* The angled "top flap" inside envelope: also doubled dims */
+.envelope:before {
+  background-color: #f08080;
+  content: "";
+  position: absolute;
+  width: 424px;   /* was 212px */
+  height: 424px;  /* was 212px */
+  transform: rotate(45deg);
+  top: -210px;    /* was -105px */
+  left: 88px;     /* was 44px */
+  border-radius: 60px 0 0 0; /* optional bigger rounding */
+}
+
+/* FRONT FLAP (double original) */
+.front {
+  position: absolute;
+  border-right: 360px solid #f4978e;   /* was 180px */
+  border-top: 190px solid transparent; /* was 95px */
+  border-bottom: 200px solid transparent; /* was 100px */
+  left: 240px;  /* was 120px */
+  top: 10px;    /* was 5px */
+  width: 0;
+  height: 0;
+  z-index: 10;
+}
+.front:before {
+  position: absolute;
+  content: "";
+  border-left: 600px solid #f8ad9d;  /* was 300px */
+  border-top: 390px solid transparent; /* was 195px */
+  left: -240px;  /* was -120px */
+  top: -190px;   /* was -95px */
+  width: 0;
+  height: 0;
+}
+
+/* SHADOW UNDER ENVELOPE: doubled approx */
+.shadow {
+  position: absolute;
+  width: 660px;  /* was 330px */
+  height: 50px;  /* was 25px */
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  top: 530px;    /* was 265px */
+  left: -30px;   /* was -15px */
+  animation: scale 3s linear infinite;
+  z-index: -1;
+}
+@keyframes scale {
+  0%, 100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.85);
+  }
+}
+
+/* --- THE LETTER (CARD) --- */
+.card {
+  position: absolute;
+  background-color: #eae2b7;
+  box-shadow: -8px -8px 160px rgba(0, 0, 0, 0.4); /* bigger shadow */
+  transition: all 0.6s ease;
+  overflow: hidden; /* only show part of .letter-inner if folded */
+}
+
+/* HOVER “PEEK” => only if state=0 */
+.card.hover {
+  top: -180px; /* doubled from -90px */
+}
+
+/* STATES:
+   state0 => closed
+   state1 => half open (folded)
+   state2 => fully open
+*/
+
+/* CLOSED (was top:5px, left:15px, 270x170 => now doubled ) */
+.card.state0 {
+  top: 10px;
+  left: 30px;
+  width: 540px;
+  height: 340px;
+}
+
+/* FOLDED (was top:-220px, left:-70px, 250x300 => now bigger) */
+.card.state1 {
+  top: -440px;
+  left: -140px;
+  width: 500px;  /* half the final letter width */
+  height: 600px;
+  border: 4px solid #fff; /* slightly thicker border */
+  border-radius: 12px;
+}
+
+/* FULLY OPEN (was 500x300 => now 1000x600) */
+.card.state2 {
+  top: -440px;
+  left: -140px;
+  width: 1000px;
+  height: 600px;
+  border: 4px solid #fff;
+  border-radius: 12px;
+  box-shadow: -10px -10px 200px rgba(0, 0, 0, 0.7);
+}
+
+/* .letter-inner always 1000x600, bigger than before */
+.letter-inner {
+  position: relative;
+  width: 1000px;
+  height: 600px;
+}
+
+/* LEFT HALF: 500 wide, 600 high (doubled from 250x300) */
+.left-half {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 500px;
+  height: 600px;
+
+  /* Tell Webpack NOT to resolve this path: */
+  background: url("./assets/me.png") center / cover no-repeat;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* RIGHT HALF: also 500 wide (250→500) */
+.right-half {
+  position: absolute;
+  top: 0;
+  left: 500px; /* half of 1000 */
+  width: 500px;
+  height: 600px;
+  background-color: #fdefd5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Bumped up text size for bigger scale */
+.question {
+  font-size: 2.4rem;   /* was 1.6rem */
+  color: #003049;
+  font-family: "Brush Script MT";
+  text-align: center;
+  margin-bottom: 2rem; /* more spacing */
+}
+
+/* Buttons bigger as well */
+.button-row {
+  display: flex;
+  gap: 2rem; /* more space between them */
+}
+.yes-btn,
+.no-btn {
+  background-color: #f08080;
+  border: none;
+  padding: 1.2rem 2rem; /* bigger button area */
+  font-size: 1.4rem;    /* bigger text */
+  color: #fff;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+.yes-btn:hover {
+  background-color: #f4978e;
+}
+.no-btn:hover {
+  background-color: #d62828;
+}
+
+/* FLOATING HEARTS: double size & movement if desired */
+.hearts {
+  position: absolute;
+}
+
+/* Original was 10px. We'll do 20px for bigger hearts. */
+.one, .two, .three, .four, .five {
+  background-color: red;
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  margin: 0 10px;
+  position: relative;
+  transform: rotate(-45deg);
+  top: 100px; /* double from 50px */
+  border-radius: 2px; /* optional little rounding */
+}
+.one:before, .one:after,
+.two:before, .two:after,
+.three:before, .three:after,
+.four:before, .four:after,
+.five:before, .five:after {
+  content: "";
+  background-color: red;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+}
+.one:before, .two:before, .three:before, .four:before, .five:before {
+  top: -10px; /* double from -5px */
+  left: 0;
+}
+.one:after, .two:after, .three:after, .four:after, .five:after {
+  left: 10px; /* double from 5px */
+  top: 0;
+}
+/* Each heart’s timing is the same, but let's also double the translate for bigger effect */
+.one {
+  left: 20px; /* double from 10px */
+  animation: heart 1s ease-out infinite;
+}
+.two {
+  left: 60px;  /* was 30px, let's do double or a bit more */
+  animation: heart 2s ease-out infinite;
+}
+.three {
+  left: 100px; /* was 50px, doubled is 100 */
+  animation: heart 1.5s ease-out infinite;
+}
+.four {
+  left: 140px; /* was 70 */
+  animation: heart 2.3s ease-out infinite;
+}
+.five {
+  left: 180px; /* was 90 */
+  animation: heart 1.7s ease-out infinite;
+}
+@keyframes heart {
+  0% {
+    transform: translateY(0) rotate(-45deg) scale(0.3);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-300px) rotate(-45deg) scale(1.3); /* double from -150px */
+    opacity: 0.5;
+  }
+}
